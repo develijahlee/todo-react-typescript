@@ -1,18 +1,28 @@
-import React from 'react';
-import { TodoListItem } from './TodoListItem';
+import React, { useState } from 'react';
+import { TodoList } from './TodoList';
 
-const todos: Array<Todo> = [
+const initialTodos: Array<Todo> = [
   { text: 'Walk the dog', complete: true },
   { text: 'Write app', complete: false },
 ];
 
 const App: React.FC = () => {
-  return (
-    <>
-      <TodoListItem todo={todos[0]} />
-      <TodoListItem todo={todos[1]} />
-    </>
-  );
+  const [todos, setTodos] = useState(initialTodos);
+
+  const toggleTodo: ToggleTodo = (selectedTodo) => {
+    const newTodos = todos.map((todo) => {
+      if (todo === selectedTodo) {
+        return {
+          ...todo,
+          complete: !todo.complete,
+        };
+      }
+      return todo;
+    });
+    setTodos(newTodos);
+  };
+
+  return <TodoList todos={todos} toggleTodo={toggleTodo} />;
 };
 
 export default App;
