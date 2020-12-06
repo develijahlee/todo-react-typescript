@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { TodoList } from './TodoList';
+import { AddTodoForm } from './AddTodoForm';
 
 const initialTodos: Array<Todo> = [
   { text: 'Walk the dog', complete: true },
@@ -22,7 +23,18 @@ const App: React.FC = () => {
     setTodos(newTodos);
   };
 
-  return <TodoList todos={todos} toggleTodo={toggleTodo} />;
+  const addTodo: AddTodo = (newTodo) => {
+    // receives newTodo data from handleSubmit in AddTodoForm.tsx
+    newTodo.trim() !== '' && // If input is not blank, add new todo object into the array
+      setTodos([...todos, { text: newTodo, complete: false }]);
+  };
+
+  return (
+    <>
+      <TodoList todos={todos} toggleTodo={toggleTodo} />
+      <AddTodoForm addTodo={addTodo} />
+    </>
+  );
 };
 
 export default App;
